@@ -5,6 +5,8 @@ backend/node_modules/
 # Ignore .env files
 frontend/.env
 backend/.env
+**/.env
+
 
 # Optional: macOS and build folders
 .DS_Store
