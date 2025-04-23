@@ -1,0 +1,10 @@
+# server/.gitignore
+
+# Ignore node_modules in server
+node_modules/
+
+# Ignore .env files
+.env
+
+# Ignore dist folder (if you're building your code with TypeScript or similar)
+dist/

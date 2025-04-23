@@ -1,23 +1,14 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# client/.gitignore
 
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
+# Ignore node_modules in client
+node_modules/
 
-# testing
-/coverage
+# Ignore build and dist folders
+build/
+dist/
 
-# production
-/build
+# Ignore .env files
+.env
 
-# misc
-.DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Optional: Ignore IDE/editor specific files (VSCode example)
+.vscode/
