@@ -6,6 +6,7 @@ export const getAllUser = async (req, res, next) => {
   try {
     const users = await UserModel.find({}, { password: 0 }); //Hide password field
 
+    //Success res
     return res.status(200).json({
       success: true,
       data: users,
@@ -24,6 +25,7 @@ export const getAllDoctor = async (req, res, next) => {
   try {
     const doctors = await DoctorModel.find({});
 
+    //Success Res
     return res.status(200).json({
       success: true,
       data: doctors,
@@ -60,6 +62,7 @@ export const changeAccountStatus = async (req, res) => {
 
     const unSeenNotifications = user.unSeenNotifications;
 
+    //Push notification
     unSeenNotifications.push({
       type: "doctor-account-request-updated",
       message: `Your doctor account request has ${status}.`,
@@ -68,6 +71,7 @@ export const changeAccountStatus = async (req, res) => {
     user.isDoctor = status === "approved" ? true : false;
     user.save();
 
+    //Success res
     return res.status(201).json({
       success: true,
       message: "Account status updated!",

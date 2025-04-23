@@ -9,6 +9,7 @@ export const register = async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
 
+    //Validation
     if (!name || !email || !password) {
       return res.status(422).json({
         message: "Please provide all fields!",
@@ -23,6 +24,7 @@ export const register = async (req, res, next) => {
       });
     }
 
+    //Check existing user
     const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -36,6 +38,7 @@ export const register = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(req.body.password, salt);
     req.body.password = hashedPassword;
 
+    //Register user
     const user = new UserModel(req.body);
     await user.save();
     return res.status(201).json({
@@ -56,7 +59,7 @@ export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    
+    //Validation
     if (!email || !password) {
       return res.status(422).json({
         message: "Please provide all fields!",
@@ -64,7 +67,7 @@ export const login = async (req, res, next) => {
       });
     }
 
-  
+    //Password Validation
     if (password.length < 6) {
       return res.status(422).json({
         message: "Password length should be greater than 6 character",
@@ -72,7 +75,7 @@ export const login = async (req, res, next) => {
       });
     }
 
-    
+    //Check user is exist or not
     const getUser = await UserModel.findOne({ email });
     if (!getUser) {
       return res.status(404).json({
@@ -81,6 +84,7 @@ export const login = async (req, res, next) => {
       });
     }
 
+    //Password match
     const comparePassword = await bcrypt.compare(password, getUser.password);
     if (!comparePassword) {
       return res.status(400).json({
@@ -89,10 +93,12 @@ export const login = async (req, res, next) => {
       });
     }
 
+    //Generate token
     const token = jwt.sign({ id: getUser._id }, process.env.JWT_SECRET, {
       expiresIn: "1d",
     });
 
+    //Login success
     return res.status(200).json({
       success: true,
       token,
@@ -109,6 +115,7 @@ export const login = async (req, res, next) => {
 //********* GET USER INFO (FOR PROTECTED ROUTES) ******/
 export const getUserInfo = async (req, res, next) => {
   try {
+    //Get user
     const user = await UserModel.findOne({ _id: req.body.userId });
     user.password = undefined;
     if (!user) {
